@@ -1,0 +1,9 @@
+name: BackupMaster
+version: '1.0.0'
+main: de.tomasgng.BackupMasterPlugin
+api-version: '1.21'
+authors: [ TomasGnG ]
+description: Backup and upload your world effortlessly
+
+commands:
+  backupworlds:
