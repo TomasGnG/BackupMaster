@@ -2,7 +2,7 @@ package de.tomasgng.utils;
 
 import de.tomasgng.BackupMasterPlugin;
 import de.tomasgng.backupcreators.BackupCreator;
-import de.tomasgng.backupcreators.PixeldrainBackupCreator;
+import de.tomasgng.backupcreators.FilebinBackupCreator;
 import de.tomasgng.config.pathproviders.ConfigPathProvider;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
@@ -16,7 +16,8 @@ public class BackupManager {
     public boolean backupStarted;
 
     public BackupManager() {
-        backupCreator = new PixeldrainBackupCreator();
+//        backupCreator = new PixeldrainBackupCreator();
+        backupCreator = new FilebinBackupCreator();
         backupCreator.msgConsumer = (sender, component) -> adventure.sender(sender).sendMessage(component);
     }
 

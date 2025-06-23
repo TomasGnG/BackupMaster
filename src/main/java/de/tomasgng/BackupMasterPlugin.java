@@ -3,6 +3,7 @@ package de.tomasgng;
 import de.tomasgng.commands.BackupCommand;
 import de.tomasgng.config.ConfigManager;
 import de.tomasgng.config.dataproviders.ConfigDataProvider;
+import de.tomasgng.scheduling.QuartzScheduleManager;
 import de.tomasgng.utils.BackupManager;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.command.CommandMap;
@@ -18,6 +19,7 @@ public class BackupMasterPlugin extends JavaPlugin {
     private ConfigManager configManager;
     private ConfigDataProvider configDataProvider;
     private BackupManager backupManager;
+    private QuartzScheduleManager quartzScheduleManager;
 
     @Override
     public void onEnable() {
@@ -26,6 +28,7 @@ public class BackupMasterPlugin extends JavaPlugin {
         configManager = new ConfigManager();
         configDataProvider = new ConfigDataProvider();
         backupManager = new BackupManager();
+        quartzScheduleManager = new QuartzScheduleManager();
 
         registerCommand();
     }
@@ -44,12 +47,16 @@ public class BackupMasterPlugin extends JavaPlugin {
         }
     }
 
+
+
     @Override
     public void onDisable() {
         if(adventure != null) {
             adventure.close();
             adventure = null;
         }
+
+        quartzScheduleManager.onDisable();
     }
 
     public static BackupMasterPlugin getPlugin() {

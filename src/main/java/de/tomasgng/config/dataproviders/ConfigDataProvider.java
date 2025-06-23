@@ -7,11 +7,16 @@ import de.tomasgng.config.utils.ConfigPair;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.quartz.Trigger;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 public class ConfigDataProvider {
 
@@ -74,5 +79,20 @@ public class ConfigDataProvider {
             return type.cast(config.getStringList(pair));
 
         return null;
+    }
+
+    public List<Trigger> getCronTriggers() {
+        List<String> rawTriggers = getValue(ConfigPathProvider.SETTINGS_CRON_TRIGGERS, List.class);
+        List<Trigger> triggers = new ArrayList<>();
+
+        rawTriggers.forEach(rawTrigger -> {
+            try {
+                triggers.add(newTrigger().withSchedule(cronSchedule(rawTrigger)).build());
+            } catch (Exception e) {
+                BackupMasterPlugin.getPlugin().getLogger().warning("The cron trigger {" + rawTrigger + "} is invalid! Source (" + ConfigPathProvider.SETTINGS_CRON_TRIGGERS.getPath() + ")");
+            }
+        });
+
+        return triggers;
     }
 }

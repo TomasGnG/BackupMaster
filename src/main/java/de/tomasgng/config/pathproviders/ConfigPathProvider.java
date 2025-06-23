@@ -18,6 +18,7 @@ public final class ConfigPathProvider {
     public static ConfigPair SETTINGS_COMMAND_ALIASES = pair(SETTINGS_BASE + "command.aliases", List.of("backups", "backup"));
     public static ConfigPair SETTINGS_ENCRYPTION_ENABLED = pair(SETTINGS_BASE + "encryption.enabled", false);
     public static ConfigPair SETTINGS_ENCRYPTION_ZIP_PASSWORD = pair(SETTINGS_BASE + "encryption.zipPassword", UUID.randomUUID().toString(), "The password for the encrypted ZIP file");
+    public static ConfigPair SETTINGS_CRON_TRIGGERS = pair(SETTINGS_BASE + "cronTriggers", List.of("0 0 0 * * ?"), "Specify cron expressions for backup jobs.", "Example: \"0 0 0 * * ?\" for daily backups.", "Cron generator: https://crontab.cronhub.io/");
 
     @ConfigExclude(excludeComments = false)
     public static ConfigPair MESSAGES_BASE = pair("messages", null, "All messages are in MiniMessage format.", "Check: https://docs.advntr.dev/minimessage/format");
@@ -30,7 +31,7 @@ public final class ConfigPathProvider {
     public static ConfigPair MESSAGES_BACKUP_UPLOAD_PROGRESS = pair(MESSAGES_BASE.getPath() + ".backupUploadProgress", "%prefix% Uploading <green>%world%<gray>... <green>%progress%%");
     public static ConfigPair MESSAGES_BACKUP_UPLOADED = pair(MESSAGES_BASE.getPath() + ".backupUploaded", "%prefix% Backup <green>successfully</green> uploaded for <green>%world%<gray>. <br><gray>Download link: <green>%link%");
     public static ConfigPair MESSAGES_ERROR_WHILE_UPLOADING = pair(MESSAGES_BASE.getPath() + ".backupUploadFailed", "%prefix% Error while uploading the backup for <red>%world%<gray>. Reason: <red>%reason%");
-    public static ConfigPair MESSAGES_PIXELDRAIN_API_KEY_MISSING = pair(MESSAGES_BASE.getPath() + ".pixeldrainApiKeyMissing", "%prefix% Please specify a ");
+    public static ConfigPair MESSAGES_PIXELDRAIN_API_KEY_MISSING = pair(MESSAGES_BASE.getPath() + ".pixeldrainApiKeyMissing", "%prefix% Please specify a Pixeldrain API key for uploads.");
 
     private static ConfigPair pair(String path, Object value) {
         return new ConfigPair(path, value);

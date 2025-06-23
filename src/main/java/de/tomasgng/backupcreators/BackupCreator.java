@@ -42,8 +42,7 @@ public abstract class BackupCreator {
 
         new File(backupFolder).mkdir();
 
-        Bukkit.getWorlds().forEach(World::save);
-
+        Bukkit.getScheduler().runTask(BackupMasterPlugin.getPlugin(), () -> Bukkit.getWorlds().forEach(World::save));
 
         Bukkit.getScheduler().runTaskAsynchronously(BackupMasterPlugin.getPlugin(), () -> {
             for (World world : Bukkit.getWorlds()) {
@@ -101,6 +100,7 @@ public abstract class BackupCreator {
             msgConsumer.accept(sender, config.getValue(ConfigPathProvider.MESSAGES_ERROR_WHILE_CREATING_TEMP_COPY,
                                                        Component.class,
                                                        Map.of("%world%", world.getName(), "%reason%", e.getMessage())));
+            e.printStackTrace();
             return;
         }
 
@@ -150,6 +150,9 @@ public abstract class BackupCreator {
         }
 
         for (File file : files) {
+            if(!file.exists())
+                continue;
+
             if (file.isDirectory()) {
                 File targetDir = new File(target, file.getName());
                 copyDirectoryExcluding(file, targetDir, excludeName);
